@@ -1,0 +1,175 @@
+#lang racket
+
+(define make-tree list)
+(define add-subtree cons)
+(define make-leaf (lambda (x) x))
+(define empty-tree? empty?)
+(define first-subtree car)
+(define rest-subtree cdr)
+(define leaf-data (lambda (x) x))
+(define composite-tree? list?)
+(define leaf? (lambda (x) (not (composite-tree? x))))
+
+(provide (all-defined-out))
+
+(define integers-from
+  (lambda (n)
+    (cons-lzl n (lambda () (integers-from (+ n 1))))))
+
+(define cons-lzl cons)
+(define empty-lzl? empty?)
+(define empty-lzl '())
+(define head car)
+(define tail
+  (lambda (lzl)
+    ((cdr lzl))))
+
+(define leaf? (lambda (x) (not (list? x))))
+
+;; Signature: map-lzl(f, lz)
+;; Type: [[T1 -> T2] * Lzl(T1) -> Lzl(T2)]
+(define map-lzl
+  (lambda (f lzl)
+    (if (empty-lzl? lzl)
+        lzl
+        (cons-lzl (f (head lzl))
+                  (lambda () (map-lzl f (tail lzl)))))))
+
+;; Signature: take(lz-lst,n)
+;; Type: [LzL*Number -> List]
+;; If n > length(lz-lst) then the result is lz-lst as a List
+(define take
+  (lambda (lz-lst n)
+    (if (or (= n 0) (empty-lzl? lz-lst))
+      empty-lzl
+      (cons (head lz-lst)
+            (take (tail lz-lst) (- n 1))))))
+
+; Signature: nth(lz-lst,n)
+;; Type: [LzL*Number -> T]
+;; Pre-condition: n < length(lz-lst)
+(define nth
+  (lambda (lz-lst n)
+    (if (= n 0)
+        (head lz-lst)
+        (nth (tail lz-lst) (- n 1)))))
+
+
+;;; Q1.1
+; Signature: append$(lst1, lst2, cont) 
+; Type: [List * List * [List -> T]] -> T
+; Purpose: Returns the concatination of the given two lists, with cont pre-processing
+(define append$
+  (lambda (lst1 lst2 cont)
+    (if (empty? lst1)
+        (cont lst2)
+        (append$ (cdr lst1) lst2
+                 (lambda (result)
+                   (cont (cons (car lst1) result)))))
+  )
+)
+;;; Q1.2
+; Signature: equal-trees$(tree1, tree2, succ, fail) 
+; Type: [Tree * Tree * [Tree ->T1] * [Pair->T2] -> T1 U T2
+; Purpose: Determines the structure identity of a given two lists, with post-processing succ/fail
+(define (equal-trees$ tree1 tree2 succ fail)
+  (cond
+    ;; If both trees are empty, return an empty tree
+    ((and (empty-tree? tree1) (empty-tree? tree2))
+     (succ '()))
+
+    ;; If both trees are atomic leaves, return a tree with the pair of their values
+    ((and (leaf? tree1) (leaf? tree2))
+     (succ (cons (cons (leaf-data tree1) (leaf-data tree2)) '())))
+
+    ;; If one tree is empty and the other is not, return a pair with the conflicting subtree
+    ((or (empty-tree? tree1) (empty-tree? tree2))
+     (fail (cons tree1 tree2)))
+
+    ;; If both trees are compound trees, check their subtrees recursively
+    ((and (composite-tree? tree1) (composite-tree? tree2))
+         (succ (cons (cons ((leaf-data first-subtree tree1)) (first-subtree tree2)) (equal-trees$ (rest-subtree tree1) (rest-subtree tree2) succ fail))))
+    ;; If none of the above conditions match, the trees have different structures, so return a pair with the conflicting subtrees
+    (else
+     (fail (cons tree1 tree2)))))
+
+;;; Q2.1
+
+;; Signature: as-real(x)
+;; Type: [ Number -> Lzl(Number) ]
+;; Purpose: Convert a rational number to its form as a
+;; constant real number
+(define as-real
+  (lambda (x)
+    #f ;@TODO
+  )
+)
+
+
+;; Signature: ++(x, y)
+;; Type: [ Lzl(Number) * Lzl(Number) -> Lzl(Number) ]
+;; Purpose: Addition of real numbers
+(define ++
+  (lambda (x y)
+    #f ;@TODO
+  )
+)
+
+;; Signature: --(x, y)
+;; Type: [ Lzl(Number) * Lzl(Number) -> Lzl(Number) ]
+;; Purpose: Subtraction of real numbers
+(define --
+  (lambda (x y)
+    #f ;@TODO
+  )
+)
+
+;; Signature: **(x, y)
+;; Type: [ Lzl(Number) * Lzl(Number) -> Lzl(Number) ]
+;; Purpose: Multiplication of real numbers
+(define **
+  (lambda (x y)
+    #f ;@TODO
+  )
+)
+;; Signature: //(x, y)
+;; Type: [ Lzl(Number) * Lzl(Number) -> Lzl(Number) ]
+;; Purpose: Division of real numbers
+(define //
+  (lambda (x y)
+    #f ;@TODO
+  )
+)
+
+;;; Q2.2.a
+;; Signature: sqrt-with(x y)
+;; Type: [ Lzl(Number) * Lzl(Number) -> Lzl(Lzl(Number)) ]
+;; Purpose: Using an initial approximation `y`, return a 
+;; sequence of real numbers which converges into the 
+;; square root of `x`
+(define sqrt-with
+  (lambda (x y)
+    #f ;@TODO
+  )
+)
+
+;;; Q2.2.b
+;; Signature: diag(lzl)
+;; Type: [ Lzl(Lzl(T)) -> Lzl(T) ]
+;; Purpose: Diagonalize an infinite lazy list
+(define diag
+  (lambda (lzl)
+    #f ;@TODO
+  )
+)
+
+;;; Q2.2.c
+;; Signature: rsqrt(x)
+;; Type: [ Lzl(Number) -> Lzl(Number) ]
+;; Purpose: Take a real number and return its square root
+;; Example: (take (rsqrt (as-real 4.0)) 6) => '(4.0 2.5 2.05 2.0006097560975613 2.0000000929222947 2.000000000000002)
+(define rsqrt
+  (lambda (x)
+    #f ;@TODO
+  )
+)
