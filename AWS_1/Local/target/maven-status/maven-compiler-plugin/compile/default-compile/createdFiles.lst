@@ -1,0 +1,5 @@
+App.class
+com/example/NamedEntityRecognitionHandler.class
+com/example/SentimentAnalysisHandler.class
+com/example/JsonUrlParser.class
+AWS.class
