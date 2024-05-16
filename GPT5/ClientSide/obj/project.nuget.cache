@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "HZoaZssVaKSDXtB+C6RulTVKJB+yQUSRuF175O264M0JyVSE0D7kjQTfsBMrILeECF/LpdXuFqN/SZZKxw3ddA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Naor\\Documents\\Uni\\GPT5\\ClientSide\\virusProg.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Naor\\.nuget\\packages\\microsoft.netcore.platforms\\5.0.0\\microsoft.netcore.platforms.5.0.0.nupkg.sha512",
+    "C:\\Users\\Naor\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
+    "C:\\Users\\Naor\\.nuget\\packages\\system.security.accesscontrol\\5.0.0\\system.security.accesscontrol.5.0.0.nupkg.sha512",
+    "C:\\Users\\Naor\\.nuget\\packages\\system.security.principal.windows\\5.0.0\\system.security.principal.windows.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
